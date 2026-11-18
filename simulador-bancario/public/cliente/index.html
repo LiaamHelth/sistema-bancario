@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banca virtual – Banco Sim</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="/css/estilos.css" rel="stylesheet">
+</head>
+<body>
+<!-- INICIO DE SESIÓN -->
+<section id="vistaLogin" class="pantalla-login">
+  <form id="formLogin" class="tarjeta-login" novalidate>
+    <h1 class="h3 mb-1">Banca virtual</h1>
+    <p class="text-secondary mb-4">Ingresa con tu correo y contraseña.</p>
+    <div id="errLogin" class="alert alert-danger d-none" role="alert"></div>
+    <div class="mb-3"><label class="form-label" for="lEmail">Correo electrónico</label>
+      <input id="lEmail" type="email" class="form-control" autocomplete="username" required></div>
+    <div class="mb-4"><label class="form-label" for="lPass">Contraseña</label>
+      <input id="lPass" type="password" class="form-control" autocomplete="current-password" required></div>
+    <button class="btn btn-primary w-100">Iniciar sesión</button>
+    <p class="mt-3 mb-0 text-center"><a href="/">Volver al inicio</a></p>
+  </form>
+</section>
+
+<!-- APLICACIÓN -->
+<div id="vistaApp" class="d-none">
+  <nav class="barra py-2">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a class="marca" href="/">Banco <span>Sim</span></a>
+      <div class="d-flex align-items-center gap-3">
+        <span id="saludo" class="d-none d-sm-inline"></span>
+        <button id="btnSalir" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-md-6"><div class="dato principal"><small>Saldo disponible</small><div class="cifra" id="saldo">–</div></div></div>
+      <div class="col-6 col-md-3"><div class="dato"><small>Número de cuenta</small><div class="cifra h5 mb-0" id="numCuenta">–</div></div></div>
+      <div class="col-6 col-md-3"><div class="dato"><small>Tipo de cuenta</small><div class="cifra h5 mb-0" id="tipoCuenta">–</div></div></div>
+    </div>
+
+    <ul class="nav nav-pills mb-3 flex-wrap gap-1" id="pestanas">
+      <li class="nav-item"><button class="nav-link active" data-sec="movimientos">Movimientos</button></li>
+      <li class="nav-item"><button class="nav-link" data-sec="transferir">Transferir</button></li>
+      <li class="nav-item"><button class="nav-link" data-sec="perfil">Mi perfil</button></li>
+      <li class="nav-item"><button class="nav-link" data-sec="password">Cambiar contraseña</button></li>
+    </ul>
+
+    <section id="sec-movimientos" class="panel">
+      <h2 class="h5 mb-3">Historial de movimientos</h2>
+      <div class="tabla-scroll"><table class="table align-middle">
+        <thead><tr><th>Fecha</th><th>Tipo</th><th>Descripción</th><th class="text-end">Valor</th><th class="text-end">Saldo resultante</th></tr></thead>
+        <tbody id="tbMov"></tbody></table></div>
+    </section>
+
+    <section id="sec-transferir" class="panel d-none" style="max-width:520px">
+      <h2 class="h5 mb-3">Transferir a otra cuenta</h2>
+      <form id="formTransf" novalidate>
+        <div class="mb-3"><label class="form-label" for="tCuenta">Cuenta destino (10 dígitos)</label>
+          <input id="tCuenta" class="form-control" inputmode="numeric" maxlength="10" required></div>
+        <div class="mb-3"><label class="form-label" for="tValor">Valor</label>
+          <input id="tValor" type="number" min="1" step="any" class="form-control" required></div>
+        <div class="mb-3"><label class="form-label" for="tDesc">Descripción (opcional)</label>
+          <input id="tDesc" class="form-control" maxlength="80"></div>
+        <button class="btn btn-primary">Transferir</button>
+      </form>
+    </section>
+
+    <section id="sec-perfil" class="panel d-none" style="max-width:620px">
+      <h2 class="h5 mb-3">Información personal</h2>
+      <p class="text-secondary small">El nombre, documento, saldo, número de cuenta y estado solo los puede cambiar el banco.</p>
+      <form id="formPerfil" novalidate>
+        <div class="row g-3">
+          <div class="col-md-6"><label class="form-label">Nombre</label><input id="pNombre" class="form-control" disabled></div>
+          <div class="col-md-6"><label class="form-label">Documento</label><input id="pDoc" class="form-control" disabled></div>
+          <div class="col-12"><label class="form-label" for="pEmail">Correo electrónico</label><input id="pEmail" type="email" class="form-control" required></div>
+          <div class="col-md-6"><label class="form-label" for="pTel">Teléfono</label><input id="pTel" class="form-control" inputmode="numeric" required></div>
+          <div class="col-md-6"><label class="form-label" for="pDir">Dirección</label><input id="pDir" class="form-control" required></div>
+        </div>
+        <button class="btn btn-primary mt-3">Guardar cambios</button>
+      </form>
+    </section>
+
+    <section id="sec-password" class="panel d-none" style="max-width:460px">
+      <h2 class="h5 mb-3">Cambiar contraseña</h2>
+      <form id="formPass" novalidate>
+        <div class="mb-3"><label class="form-label" for="cActual">Contraseña actual</label><input id="cActual" type="password" class="form-control" autocomplete="current-password" required></div>
+        <div class="mb-3"><label class="form-label" for="cNueva">Nueva contraseña (mínimo 8 caracteres)</label><input id="cNueva" type="password" class="form-control" autocomplete="new-password" required></div>
+        <div class="mb-3"><label class="form-label" for="cConf">Confirmar nueva contraseña</label><input id="cConf" type="password" class="form-control" autocomplete="new-password" required></div>
+        <button class="btn btn-primary">Actualizar contraseña</button>
+      </form>
+    </section>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/comun.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+
+function mostrarLogin() { $('vistaApp').classList.add('d-none'); $('vistaLogin').classList.remove('d-none'); }
+
+async function cargarTodo() {
+  try {
+    const { usuario, cuenta } = await api('/api/cliente/me');
+    $('vistaLogin').classList.add('d-none'); $('vistaApp').classList.remove('d-none');
+    $('saludo').textContent = `Hola, ${usuario.nombre}`;
+    $('saldo').textContent = dinero(cuenta.saldo);
+    $('numCuenta').textContent = cuenta.numero_cuenta;
+    $('tipoCuenta').textContent = cuenta.tipo === 'AHORROS' ? 'Ahorros' : 'Corriente';
+    $('pNombre').value = `${usuario.nombre} ${usuario.apellido}`;
+    $('pDoc').value = usuario.documento;
+    $('pEmail').value = usuario.email; $('pTel').value = usuario.telefono || ''; $('pDir').value = usuario.direccion || '';
+    $('tbMov').innerHTML = filasMovimientos(await api('/api/cliente/movimientos'));
+  } catch (e) {
+    mostrarLogin();
+    if (e.status === 403) { $('errLogin').textContent = e.message; $('errLogin').classList.remove('d-none'); }
+  }
+}
+
+$('formLogin').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  $('errLogin').classList.add('d-none');
+  try {
+    await api('/api/cliente/login', { method: 'POST', body: { email: $('lEmail').value, password: $('lPass').value } });
+    $('lPass').value = '';
+    cargarTodo();
+  } catch (e) { $('errLogin').textContent = e.message; $('errLogin').classList.remove('d-none'); }
+});
+
+$('btnSalir').addEventListener('click', async () => { await api('/api/cliente/logout', { method: 'POST' }); mostrarLogin(); });
+
+$('pestanas').addEventListener('click', (ev) => {
+  const b = ev.target.closest('button'); if (!b) return;
+  document.querySelectorAll('#pestanas .nav-link').forEach((x) => x.classList.toggle('active', x === b));
+  ['movimientos', 'transferir', 'perfil', 'password'].forEach((s) => $('sec-' + s).classList.toggle('d-none', s !== b.dataset.sec));
+  if (b.dataset.sec === 'movimientos') cargarTodo();
+});
+
+$('formTransf').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const cuenta = $('tCuenta').value.trim(), valor = Number($('tValor').value);
+  if (!/^\d{10}$/.test(cuenta)) return aviso('La cuenta destino debe tener 10 dígitos', 'danger');
+  if (!(valor > 0)) return aviso('El valor debe ser mayor que cero', 'danger');
+  if (!confirm(`¿Transferir ${dinero(valor)} a la cuenta ${cuenta}?`)) return;
+  try {
+    const r = await api('/api/cliente/transferir', { method: 'POST', body: { cuenta_destino: cuenta, valor, descripcion: $('tDesc').value } });
+    aviso(`${r.mensaje}. Nuevo saldo: ${dinero(r.saldo)}`);
+    ev.target.reset(); cargarTodo();
+  } catch (e) { aviso(e.message, 'danger'); }
+});
+
+$('formPerfil').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  try {
+    const r = await api('/api/cliente/perfil', { method: 'PUT', body: { email: $('pEmail').value, telefono: $('pTel').value, direccion: $('pDir').value } });
+    aviso(r.mensaje);
+  } catch (e) { aviso(e.message, 'danger'); }
+});
+
+$('formPass').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  if ($('cNueva').value.length < 8) return aviso('La nueva contraseña debe tener mínimo 8 caracteres', 'danger');
+  if ($('cNueva').value !== $('cConf').value) return aviso('La confirmación no coincide', 'danger');
+  try {
+    const r = await api('/api/cliente/password', { method: 'PUT', body: { actual: $('cActual').value, nueva: $('cNueva').value, confirmar: $('cConf').value } });
+    aviso(r.mensaje); ev.target.reset();
+  } catch (e) { aviso(e.message, 'danger'); }
+});
+
+cargarTodo();
+</script>
+</body>
+</html>
