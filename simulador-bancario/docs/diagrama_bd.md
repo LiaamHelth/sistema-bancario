@@ -1,7 +1,5 @@
 # Diagrama de la base de datos
 
-> GitHub renderiza este diagrama automáticamente. También puedes pegarlo en https://mermaid.live para exportarlo como imagen (PNG/SVG) y entregarlo.
-
 ```mermaid
 erDiagram
     USUARIOS ||--o{ CUENTAS : "tiene"
