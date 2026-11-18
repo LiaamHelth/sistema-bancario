@@ -10,9 +10,9 @@ Aplicación web que simula las funciones básicas de un banco con **tres módulo
 Cualquier operación hecha en un módulo se ve de inmediato en los otros.
 
 ## Integrantes
-- _Nombre del integrante 1_
-- _Nombre del integrante 2_
-- _Nombre del integrante 3_
+-  Jacobo Cardona Gómez
+-  Alejandro Agudelo Hernández
+-  Jerónimo López Nieto
 
 ## Tecnologías utilizadas
 Node.js · Express.js · MySQL (`mysql2`) · express-session · dotenv · HTML, CSS, JavaScript · Bootstrap 5
